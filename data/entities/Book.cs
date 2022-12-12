@@ -14,6 +14,10 @@ namespace Bookie.data.entities
 
         public string Author { get; set; }
 
+        public double Price { get; set; }
+
+        public string Quality { get; set; }
+
         public DateTime Created { get; set; }
 
         public Comment Comment { get; set; }

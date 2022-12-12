@@ -27,7 +27,7 @@ namespace Bookie.controllers
         public async Task<IEnumerable<BookDto>> GetMany(int genreId)
         {
             var books = await bookRepository.GetManyAsync();
-            return books.Select(x => new BookDto(x.Id, x.Name, x.GenreId, x.Author, DateTime.Now)).Where(y => y.genreID == genreId);
+            return books.Select(x => new BookDto(x.Id, x.Name, x.GenreId, x.Author,x.Price,x.Quality, DateTime.Now,x.UserId)).Where(y => y.genreID == genreId);
         }
 
         [HttpGet]
@@ -36,18 +36,18 @@ namespace Bookie.controllers
         {
             var book = await bookRepository.GetAsync(bookId, genreId);
             if (book == null) return NotFound();
-            return new BookDto(book.Id,book.Name,book.GenreId, book.Author, DateTime.Now);
+            return new BookDto(book.Id,book.Name,book.GenreId, book.Author,book.Price,book.Quality, DateTime.Now,book.UserId);
         }
 
         [HttpPost]
         [Authorize(Roles=BookieRoles.BookieUser)]
         public async Task<ActionResult<BookDto>> Create(CreateBookDto createBookDto,int genreId)
         {
-            var book = new Book { Name = createBookDto.name, Author = createBookDto.author, UserId = User.FindFirstValue(JwtRegisteredClaimNames.Sub) };
+            var book = new Book { Name = createBookDto.name, Author = createBookDto.author,Price=createBookDto.price,Quality=createBookDto.quality, UserId = User.FindFirstValue(JwtRegisteredClaimNames.Sub) };
             await bookRepository.CreateAsync(book,genreId);
 
             //201
-            return Created("201", new BookDto(book.Id,book.Name,book.GenreId, book.Author, DateTime.Now));
+            return Created("201", new BookDto(book.Id,book.Name,book.GenreId, book.Author,book.Price,book.Quality, DateTime.Now,book.UserId));
         }
 
         [HttpPut]
@@ -65,7 +65,7 @@ namespace Bookie.controllers
             book.Name = updateBookDto.name;
             await bookRepository.UpdateAsync(book);
 
-            return Ok(new BookDto(book.Id, book.Name, book.GenreId, book.Author, DateTime.Now));
+            return Ok(new BookDto(book.Id, book.Name, book.GenreId, book.Author,book.Price,book.Quality, DateTime.Now,book.UserId));
         }
 
         [HttpDelete]

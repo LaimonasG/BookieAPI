@@ -16,15 +16,18 @@ namespace Bookie.controllers
     public class BasketController : ControllerBase
     {
         private readonly IBasketRepository basketRepository;
+        private readonly IBookRepository bookRepository;
         private readonly IAuthorizationService authorizationService;
 
-        public BasketController(IBasketRepository repo, IAuthorizationService authServise)
+        public BasketController(IBasketRepository repo, IAuthorizationService authServise, IBookRepository bookRep)
         {
+            bookRepository = bookRep;
             basketRepository = repo;
             authorizationService = authServise;
         }
 
         [HttpGet]
+        [Authorize(Roles = BookieRoles.BookieUser)]
         public async Task<ActionResult<BasketDto>> Get()
         {
             var userId = User.FindFirstValue(JwtRegisteredClaimNames.Sub);
@@ -47,17 +50,23 @@ namespace Bookie.controllers
 
         [HttpPut]
         [Authorize(Roles = BookieRoles.BookieUser)]
-        public async Task<ActionResult<BasketDto>> Update(UpdateBasketDto updateBasketDto)
+        public async Task<ActionResult<BasketDto>> AddBook(AddBookToBasketDto dto)
         {
+            var book = await bookRepository.GetAsync(dto.bookId, dto.genreId);
             var userId = User.FindFirstValue(JwtRegisteredClaimNames.Sub);
             var basket = await basketRepository.GetAsync(userId);
             if (basket == null) return NotFound();
-            var authRez = await authorizationService.AuthorizeAsync(User, basket, PolicyNames.ResourceOwner);
-            if (!authRez.Succeeded)
+            if (book == null) return NotFound();
+            if (basket.Books == null)
             {
-                return Forbid();
+                basket.Books= new List<Book>();
             }
-            basket.Books = updateBasketDto.Books;
+
+            if (!basket.Books.Contains(book))
+            {
+                basket.Books.Add(book);
+            }
+
             await basketRepository.UpdateAsync(basket);
 
             return Ok(new BasketDto(basket.Id, basket.UserId, basket.Books));
