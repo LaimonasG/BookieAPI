@@ -4,6 +4,7 @@ using Bookie.data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Bookie.Migrations
 {
     [DbContext(typeof(BookieDBContext))]
-    partial class BookieDBContextModelSnapshot : ModelSnapshot
+    [Migration("20221213220040_added one-to-many on basket-book")]
+    partial class addedonetomanyonbasketbook
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -116,7 +118,7 @@ namespace Bookie.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("BasketId")
+                    b.Property<int>("BasketId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("Created")
@@ -338,7 +340,9 @@ namespace Bookie.Migrations
                 {
                     b.HasOne("Bookie.data.entities.Basket", "Basket")
                         .WithMany("Books")
-                        .HasForeignKey("BasketId");
+                        .HasForeignKey("BasketId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Bookie.data.Auth.Model.BookieRestUser", "User")
                         .WithMany()

@@ -1,4 +1,5 @@
 ﻿using Bookie.data.Auth.Model;
+using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations;
 
 namespace Bookie.data.entities
@@ -23,6 +24,9 @@ namespace Bookie.data.entities
         public Comment Comment { get; set; }
 
         public BookieRestUser User { get; set; }
+
+        [JsonIgnore]
+        public Basket? Basket { get; set; }
     }
 
     

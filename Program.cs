@@ -49,6 +49,7 @@ builder.Services.AddTransient<IGenreRepository, GenreRepository>();
 builder.Services.AddTransient<ICommentRepository, CommentRepository>();
 builder.Services.AddTransient<IBasketRepository, BasketRepository>();
 builder.Services.AddTransient<IJwtTokenService, JwtTokenService>();
+builder.Services.AddScoped<AuthDbSeeder>();
 
 builder.Services.AddAuthorization(options =>
 {
@@ -74,4 +75,6 @@ app.MapControllers();
 app.UseAuthentication();
 app.UseAuthorization();
 
+var dbseeder=app.Services.CreateScope().ServiceProvider.GetRequiredService<AuthDbSeeder>();
+await dbseeder.SeedAsync();
 app.Run();

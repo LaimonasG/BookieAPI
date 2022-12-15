@@ -57,6 +57,9 @@ namespace Bookie.controllers
             var basket = await basketRepository.GetAsync(userId);
             if (basket == null) return NotFound();
             if (book == null) return NotFound();
+
+       
+
             if (basket.Books == null)
             {
                 basket.Books= new List<Book>();
