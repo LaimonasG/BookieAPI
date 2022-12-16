@@ -33,3 +33,7 @@ Sistemos sudedamosios dalys:
 
 Sistemos talpinimui yra naudojamas Azure serveris. Internetinė aplikacija yra pasiekiama per HTTP protokolą. Duomenų manipuliavimui su duomenų baze yra
 reikalingas API, kuris pasiekiamas per aplikacijų programavimo sąsają. Pats API vykdo duomenų mainus su duomenų baze.
+
+Sistemos puslapių pavyzdžiai:
+![image](https://user-images.githubusercontent.com/79421767/208069522-d43f3515-d388-4f92-bdd8-264e8c7d6a4d.png)
+
