@@ -35,5 +35,15 @@ Sistemos talpinimui yra naudojamas Azure serveris. Internetinė aplikacija yra p
 reikalingas API, kuris pasiekiamas per aplikacijų programavimo sąsają. Pats API vykdo duomenų mainus su duomenų baze.
 
 Sistemos puslapių pavyzdžiai:
+Knygų puslapis:
 ![image](https://user-images.githubusercontent.com/79421767/208069522-d43f3515-d388-4f92-bdd8-264e8c7d6a4d.png)
+
+Žanrų puslapis:
+![image](https://user-images.githubusercontent.com/79421767/208069721-34cfdef4-36ef-49b9-9f6c-b350220e05d1.png)
+
+Prisijungimo puslapis:
+![image](https://user-images.githubusercontent.com/79421767/208069775-a243903c-c047-468a-9959-3375f48c1e0e.png)
+
+
+
 
